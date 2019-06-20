@@ -6,11 +6,34 @@
 //  Copyright © 2019 Andrei Coder. All rights reserved.
 //
 
-import Foundation
-
-struct EducationPeriod {
+struct EducationPeriod: Decodable {
   let start: String
   let end: String
+  
+  enum CodingKeys: String, CodingKey {
+    case start = "start"
+    case end = "end"
+  }
+}
+
+struct PersonJson: Decodable {
+  let id: Int?
+  let name: String?
+  let phone: String?
+  let height: Float?
+  let biography: String?
+  let temperament: String?
+  let educationPeriod: EducationPeriod?
+  
+  enum CodingKeys: String, CodingKey {
+    case id              = "id"
+    case name            = "name"
+    case phone           = "phone"
+    case height          = "height"
+    case biography       = "biograpy"
+    case temperament     = "temperament"
+    case educationPeriod = "educationPeriod"
+  }
 }
 
 enum Temperament: String {
@@ -23,15 +46,9 @@ enum Temperament: String {
 struct Person {
   let id: Int?
   let name: String?
+  let phone: String?
   let height: Float?
-  let biograpy: String?
+  let biography: String?
   let temperament: Temperament?
   let educationPeriod: EducationPeriod?
 }
-
-//id (string) — ID контакта
-//name (string) — Имя человека
-//height (float) — Рост человека
-//biography (string) — Биография человека
-//temperament (enum) — Темперамент человека (melancholic, phlegmatic, sanguine, choleric)
-//educationPeriod (object) — Период прохождения учебы. Состоит из дат start и end.

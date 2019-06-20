@@ -54,6 +54,10 @@
 		926AAD7E22BC1DEB0072EFD1 /* contacts */ = {
 			isa = PBXGroup;
 			children = (
+				926AAD9122BC1E4F0072EFD1 /* Modules */,
+				926AADA322BC25180072EFD1 /* Data */,
+				926AADA122BC24200072EFD1 /* Extensions */,
+				926AADA222BC25120072EFD1 /* Utils */,
 				926AAD7F22BC1DEB0072EFD1 /* AppDelegate.swift */,
 				926AAD8122BC1DEB0072EFD1 /* ViewController.swift */,
 				926AAD8322BC1DEB0072EFD1 /* Main.storyboard */,
@@ -62,6 +66,122 @@
 				926AAD8B22BC1DEB0072EFD1 /* Info.plist */,
 			);
 			path = contacts;
+			sourceTree = "<group>";
+		};
+		926AAD9122BC1E4F0072EFD1 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				926AAD9222BC1E8C0072EFD1 /* Contacts */,
+				926AAD9C22BC21030072EFD1 /* Person */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		926AAD9222BC1E8C0072EFD1 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				926AADA022BC220C0072EFD1 /* Api */,
+				926AAD9322BC1EA00072EFD1 /* View */,
+				926AAD9422BC1EA90072EFD1 /* Interactor */,
+				926AAD9622BC1EBE0072EFD1 /* Presenter */,
+				926AAD9722BC1EC70072EFD1 /* Entity */,
+				926AAD9822BC1EF70072EFD1 /* Router */,
+			);
+			path = Contacts;
+			sourceTree = "<group>";
+		};
+		926AAD9322BC1EA00072EFD1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		926AAD9422BC1EA90072EFD1 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		926AAD9622BC1EBE0072EFD1 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		926AAD9722BC1EC70072EFD1 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		926AAD9822BC1EF70072EFD1 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		926AAD9C22BC21030072EFD1 /* Person */ = {
+			isa = PBXGroup;
+			children = (
+				926AAD9F22BC21350072EFD1 /* Model */,
+				926AAD9E22BC21300072EFD1 /* View */,
+				926AAD9D22BC21270072EFD1 /* Controller */,
+			);
+			path = Person;
+			sourceTree = "<group>";
+		};
+		926AAD9D22BC21270072EFD1 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		926AAD9E22BC21300072EFD1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		926AAD9F22BC21350072EFD1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		926AADA022BC220C0072EFD1 /* Api */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Api;
+			sourceTree = "<group>";
+		};
+		926AADA122BC24200072EFD1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		926AADA222BC25120072EFD1 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		926AADA322BC25180072EFD1 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

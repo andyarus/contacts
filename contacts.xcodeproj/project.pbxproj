@@ -13,6 +13,7 @@
 		926AAD8A22BC1DEB0072EFD1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 926AAD8822BC1DEB0072EFD1 /* LaunchScreen.storyboard */; };
 		926AADA722BC275F0072EFD1 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AADA622BC275F0072EFD1 /* ContactsViewController.swift */; };
 		926AADA922BC294E0072EFD1 /* ContactsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AADA822BC294E0072EFD1 /* ContactsModel.swift */; };
+		926AADAC22BC2AD20072EFD1 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AADAB22BC2AD20072EFD1 /* Person.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		926AAD8B22BC1DEB0072EFD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		926AADA622BC275F0072EFD1 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		926AADA822BC294E0072EFD1 /* ContactsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsModel.swift; sourceTree = "<group>"; };
+		926AADAB22BC2AD20072EFD1 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				926AAD9122BC1E4F0072EFD1 /* Modules */,
+				926AADAA22BC2ABD0072EFD1 /* Model */,
 				926AADA322BC25180072EFD1 /* Data */,
 				926AADA122BC24200072EFD1 /* Extensions */,
 				926AADA222BC25120072EFD1 /* Utils */,
@@ -187,6 +190,14 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		926AADAA22BC2ABD0072EFD1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				926AADAB22BC2AD20072EFD1 /* Person.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -260,6 +271,7 @@
 			files = (
 				926AAD8022BC1DEB0072EFD1 /* AppDelegate.swift in Sources */,
 				926AADA922BC294E0072EFD1 /* ContactsModel.swift in Sources */,
+				926AADAC22BC2AD20072EFD1 /* Person.swift in Sources */,
 				926AADA722BC275F0072EFD1 /* ContactsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

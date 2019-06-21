@@ -9,7 +9,7 @@
 import RxSwift
 
 protocol ApiProtocol {
-  func loadContactsFromSource1() -> Single<PersonJson>
-  func loadContactsFromSource2() -> Single<PersonJson>
-  func loadContactsFromSource3() -> Single<PersonJson>
+  func loadContactsFromSource1() -> Single<[Person]>
+  func loadContactsFromSource2() -> Single<[Person]>
+  func loadContactsFromSource3() -> Single<[Person]>
 }

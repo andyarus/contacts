@@ -20,11 +20,11 @@ public class Api: ApiProtocol {
     provider = MoyaProvider<ApiProvider>(plugins: [NetworkLoggerPlugin(verbose: true)])
   }
   
-  func loadContactsFromSource1() -> Single<PersonJson> {
+  func loadContactsFromSource1() -> Single<[Person]> {
     return Single.create { [unowned self] single in
       self.provider.rx.request(ApiProvider.source1)
       .filterSuccessfulStatusCodes()
-      .map(PersonJson.self)
+      .map([Person].self)
       .catchError { error in
         single(.error(error))
         throw error
@@ -35,11 +35,11 @@ public class Api: ApiProtocol {
     }
   }
   
-  func loadContactsFromSource2() -> Single<PersonJson> {
+  func loadContactsFromSource2() -> Single<[Person]> {
     return Single.create { [unowned self] single in
       self.provider.rx.request(ApiProvider.source2)
         .filterSuccessfulStatusCodes()
-        .map(PersonJson.self)
+        .map([Person].self)
         .catchError { error in
           single(.error(error))
           throw error
@@ -50,11 +50,11 @@ public class Api: ApiProtocol {
     }
   }
   
-  func loadContactsFromSource3() -> Single<PersonJson> {
+  func loadContactsFromSource3() -> Single<[Person]> {
     return Single.create { [unowned self] single in
       self.provider.rx.request(ApiProvider.source3)
         .filterSuccessfulStatusCodes()
-        .map(PersonJson.self)
+        .map([Person].self)
         .catchError { error in
           single(.error(error))
           throw error

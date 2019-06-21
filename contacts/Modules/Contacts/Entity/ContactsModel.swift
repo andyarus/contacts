@@ -9,5 +9,9 @@
 import UIKit
 
 class ContactsCell: UITableViewCell {
-
+  @IBOutlet weak var nameLabel: UILabel!
+  @IBOutlet weak var phoneLabel: UILabel!
+  @IBOutlet weak var temperamentLabel: UILabel!
+  @IBOutlet weak var forwardImageView: UIImageView!
+  
 }

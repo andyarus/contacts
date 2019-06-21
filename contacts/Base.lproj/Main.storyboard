@@ -89,7 +89,7 @@
                             <outlet property="delegate" destination="1EA-uv-qaH" id="28A-In-uvo"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="sXe-pG-7hl"/>
+                    <navigationItem key="navigationItem" id="sXe-pG-7hl"/>
                     <connections>
                         <outlet property="contactsTableView" destination="IOl-al-TYC" id="A2d-xU-aeg"/>
                     </connections>

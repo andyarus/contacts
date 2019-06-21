@@ -15,6 +15,10 @@ class ContactsViewController: UIViewController {
   var contacts: [Person] = []
   
   var refreshControl: UIRefreshControl!
+  var errorView: UIView!
+  
+  var networkErrorsCount = 0
+  var testErrorView = true // change for testing loading error notification
   
   @IBOutlet var contactsTableView: UITableView!
   
@@ -28,7 +32,54 @@ class ContactsViewController: UIViewController {
     refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     contactsTableView.addSubview(refreshControl)
     
+    setupNavigationBar()
+    initSubviews()
+    
     loadData()
+  }
+  
+  func setupNavigationBar() {
+    let label = UILabel()    
+    label.font = UIFont.boldSystemFont(ofSize: 17)
+    label.text = "Contacts"
+    navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: label)
+  }
+  
+  func initSubviews() {
+    // activity indicator subview
+    
+    // error subview
+    errorView = UIView()
+    guard let nc = navigationController else { return }
+    
+    let errorViewOffset: CGFloat = 33
+    let errorViewWidth: CGFloat = UIScreen.main.bounds.width-errorViewOffset*2
+    let errorViewHeight: CGFloat = 55
+    errorView.frame = CGRect(x: 0, y: 0, width: errorViewWidth, height: errorViewHeight)
+    errorView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+    errorView.layer.cornerRadius = 10
+    
+    let label = UILabel(frame: errorView.frame)
+    label.text = "Нет подключения к сети"
+    label.font = UIFont.boldSystemFont(ofSize: 17)
+    label.textColor = .white
+    label.textAlignment = .center
+    errorView.addSubview(label)
+    //label.centerXAnchor.constraint(equalTo: errorView.centerXAnchor).isActive = true
+    //label.centerYAnchor.constraint(equalTo: errorView.centerYAnchor).isActive = true
+    
+    nc.view.addSubview(errorView)
+    
+    errorView.translatesAutoresizingMaskIntoConstraints = false
+    let bottomConstraint = errorView.bottomAnchor.constraint(equalTo: navigationController!.view.bottomAnchor)
+    bottomConstraint.constant = -35
+    bottomConstraint.isActive = true
+    errorView.centerXAnchor.constraint(equalTo: nc.view.centerXAnchor).isActive = true
+    errorView.widthAnchor.constraint(equalToConstant: errorViewWidth).isActive = true
+    errorView.heightAnchor.constraint(equalToConstant: errorViewHeight).isActive = true
+    
+    label.frame = errorView.frame
+    errorView.isHidden = true
   }
   
   func loadData() {
@@ -37,7 +88,8 @@ class ContactsViewController: UIViewController {
   }
   
   @objc func refresh() {
-    //errorView.isHidden = true
+    errorView.isHidden = true
+    contactsTableView.isUserInteractionEnabled = false
     
     var contactsTmp: [Person] = []
     
@@ -59,7 +111,16 @@ class ContactsViewController: UIViewController {
 //                    self.contacts.append(contact)
 //                  }
 //                }
-
+                
+                // test only
+                if self.testErrorView {
+                  self.networkErrorsCount += 1
+                  if self.networkErrorsCount % 2 == 0 {
+                    self.refreshFailed()
+                    return
+                  }
+                }
+                
                 self.contacts = contactsTmp
                 self.contacts.sort {
                   $0.name ?? "" < $1.name ?? ""
@@ -67,6 +128,7 @@ class ContactsViewController: UIViewController {
                 
                 self.refreshControl.endRefreshing()
                 self.contactsTableView.reloadData()
+                self.contactsTableView.isUserInteractionEnabled = true
                 
                 }, onError: { [unowned self] (error) in
                   self.refreshFailed()
@@ -83,9 +145,10 @@ class ContactsViewController: UIViewController {
   }
   
   func refreshFailed() {
-    //errorView.isHidden = false
+    errorView.isHidden = false
     refreshControl.endRefreshing()
     contactsTableView.reloadData()
+    contactsTableView.isUserInteractionEnabled = true
   }
   
   func formatted(phone value: String?) -> String {

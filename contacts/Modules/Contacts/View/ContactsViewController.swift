@@ -14,6 +14,7 @@ class ContactsViewController: UIViewController {
   var disposeBag = DisposeBag()
   var contacts: [Person] = []
   
+  var activityIndicator: UIActivityIndicatorView!
   var refreshControl: UIRefreshControl!
   var errorView: UIView!
   
@@ -45,18 +46,25 @@ class ContactsViewController: UIViewController {
   }
   
   func initSubviews() {
-    // activity indicator subview
-    
     // refresh control
     refreshControl = UIRefreshControl()
     refreshControl.tintColor = .lightGray
     refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     contactsTableView.addSubview(refreshControl)
     
+    // activity indicator
+    activityIndicator = UIActivityIndicatorView(style: .gray)
+    
+    guard let nc = navigationController else { return }
+    nc.view.addSubview(activityIndicator)
+    
+    activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+    activityIndicator.centerXAnchor.constraint(equalTo: nc.view.centerXAnchor).isActive = true
+    activityIndicator.centerYAnchor.constraint(equalTo: nc.view.centerYAnchor).isActive = true
+    activityIndicator.startAnimating()
+    
     // error subview
     errorView = UIView()
-    guard let nc = navigationController else { return }
-    
     let errorViewOffset: CGFloat = 33
     let errorViewWidth: CGFloat = UIScreen.main.bounds.width-errorViewOffset*2
     let errorViewHeight: CGFloat = 55
@@ -70,9 +78,6 @@ class ContactsViewController: UIViewController {
     label.textColor = .white
     label.textAlignment = .center
     errorView.addSubview(label)
-    //label.centerXAnchor.constraint(equalTo: errorView.centerXAnchor).isActive = true
-    //label.centerYAnchor.constraint(equalTo: errorView.centerYAnchor).isActive = true
-    
     nc.view.addSubview(errorView)
     
     errorView.translatesAutoresizingMaskIntoConstraints = false
@@ -88,7 +93,6 @@ class ContactsViewController: UIViewController {
   }
   
   func loadData() {
-    //refreshControl.beginRefreshing()
     refresh()
   }
   
@@ -131,9 +135,7 @@ class ContactsViewController: UIViewController {
                   $0.name ?? "" < $1.name ?? ""
                 }
                 
-                self.refreshControl.endRefreshing()
-                self.contactsTableView.reloadData()
-                self.contactsTableView.isUserInteractionEnabled = true
+                self.refreshFinished()
                 
                 }, onError: { [unowned self] (error) in
                   self.refreshFailed()
@@ -149,11 +151,16 @@ class ContactsViewController: UIViewController {
     
   }
   
-  func refreshFailed() {
-    errorView.isHidden = false
+  func refreshFinished() {
     refreshControl.endRefreshing()
+    activityIndicator.stopAnimating()
     contactsTableView.reloadData()
     contactsTableView.isUserInteractionEnabled = true
+  }
+  
+  func refreshFailed() {
+    errorView.isHidden = false
+    refreshFinished()
   }
   
 }

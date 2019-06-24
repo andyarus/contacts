@@ -14,13 +14,18 @@ class ContactsViewController: UIViewController {
   var disposeBag = DisposeBag()
   var contacts: [Person] = []
   
+  var networkErrorsCount = 0
+  var testErrorView = false // change for testing loading error notification
+  
+  let headerBackgroundColor = UIColor(red: 248/255, green: 248/255, blue: 248/255, alpha: 1)
+  let searchBarBackgroundColor = UIColor(red: 232/255, green: 232/255, blue: 233/255, alpha: 1)
+  
   var activityIndicator: UIActivityIndicatorView!
   var refreshControl: UIRefreshControl!
   var errorView: UIView!
   
-  var networkErrorsCount = 0
-  var testErrorView = false // change for testing loading error notification
-  
+  @IBOutlet weak var headerView: UIView!
+  @IBOutlet weak var searchBar: UISearchBar!
   @IBOutlet var contactsTableView: UITableView!
   
   override func viewDidLoad() {
@@ -30,19 +35,32 @@ class ContactsViewController: UIViewController {
     contactsTableView.tableFooterView = UIView()
     
     setupNavigationBar()
+    setupHeaderView()
     initSubviews()
     loadData()
   }
   
-  func setupNavigationBar() {
-    // move title label to the left
-    let label = UILabel()
-    label.font = UIFont.boldSystemFont(ofSize: 17)
-    label.text = "Contacts"
-    navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: label)
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     
+    // change tint color
+    navigationController?.navigationBar.barTintColor = headerBackgroundColor
+  }
+  
+  func setupHeaderView() {
+    headerView.backgroundColor = headerBackgroundColor
+    
+    searchBar.backgroundImage = UIImage()
+    searchBar.barTintColor = UIColor()
+    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = searchBarBackgroundColor
+  }
+  
+  func setupNavigationBar() {
     // remove "Back"
     navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    
+    // hide bottom border
+    navigationController?.navigationBar.shadowImage = UIImage()
   }
   
   func initSubviews() {

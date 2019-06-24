@@ -12,6 +12,8 @@ class ProfileViewController: UIViewController {
   
   var person: Person! = nil
   
+  let barTintColor = UIColor(red: 250/255, green: 249/255, blue: 255/255, alpha: 1)
+  
   @IBOutlet weak var nameLabel: UILabel!
   @IBOutlet weak var educationPeriodLabel: UILabel!
   @IBOutlet weak var temperamentLabel: UILabel!
@@ -27,20 +29,7 @@ class ProfileViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    // customize navigation bar
-    // hide bottom border
-    navigationController?.navigationBar.shadowImage = UIImage()
-    // change tint color
-    let barTintColor = UIColor(red: 250/255, green: 249/255, blue: 255/255, alpha: 1)
     navigationController?.navigationBar.barTintColor = barTintColor
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    
-    // restore defaults
-    navigationController?.navigationBar.shadowImage = nil
-    navigationController?.navigationBar.barTintColor = nil
   }
   
   func setup() {

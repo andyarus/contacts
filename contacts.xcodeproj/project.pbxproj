@@ -17,6 +17,8 @@
 		926AADAE22BC2C8C0072EFD1 /* ApiProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AADAD22BC2C8C0072EFD1 /* ApiProtocol.swift */; };
 		926AADB022BC2C9C0072EFD1 /* ApiProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AADAF22BC2C9C0072EFD1 /* ApiProvider.swift */; };
 		926AADB222BC2CAA0072EFD1 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AADB122BC2CAA0072EFD1 /* Api.swift */; };
+		926AADB422BFDCEA0072EFD1 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AADB322BFDCEA0072EFD1 /* ProfileViewController.swift */; };
+		926AADB622C111D30072EFD1 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AADB522C111D30072EFD1 /* Utils.swift */; };
 		BDCF44A80C89AABF8E555B7A /* Pods_contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 437A691E5127BEF80B913133 /* Pods_contacts.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +37,8 @@
 		926AADAD22BC2C8C0072EFD1 /* ApiProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiProtocol.swift; sourceTree = "<group>"; };
 		926AADAF22BC2C9C0072EFD1 /* ApiProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiProvider.swift; sourceTree = "<group>"; };
 		926AADB122BC2CAA0072EFD1 /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
+		926AADB322BFDCEA0072EFD1 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		926AADB522C111D30072EFD1 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		BABE357F00ED07B9C92FBCC3 /* Pods-contacts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-contacts.debug.xcconfig"; path = "Target Support Files/Pods-contacts/Pods-contacts.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -64,7 +68,6 @@
 				BABE357F00ED07B9C92FBCC3 /* Pods-contacts.debug.xcconfig */,
 				1916B16BBC0F090F848C6418 /* Pods-contacts.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -107,7 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				926AAD9222BC1E8C0072EFD1 /* Contacts */,
-				926AAD9C22BC21030072EFD1 /* Person */,
+				926AAD9C22BC21030072EFD1 /* Profile */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -162,14 +165,14 @@
 			path = Router;
 			sourceTree = "<group>";
 		};
-		926AAD9C22BC21030072EFD1 /* Person */ = {
+		926AAD9C22BC21030072EFD1 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
 				926AAD9F22BC21350072EFD1 /* Model */,
 				926AAD9E22BC21300072EFD1 /* View */,
 				926AAD9D22BC21270072EFD1 /* Controller */,
 			);
-			path = Person;
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		926AAD9D22BC21270072EFD1 /* Controller */ = {
@@ -182,6 +185,7 @@
 		926AAD9E22BC21300072EFD1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				926AADB322BFDCEA0072EFD1 /* ProfileViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -213,6 +217,7 @@
 		926AADA222BC25120072EFD1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				926AADB522C111D30072EFD1 /* Utils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -362,10 +367,12 @@
 			files = (
 				926AAD8022BC1DEB0072EFD1 /* AppDelegate.swift in Sources */,
 				926AADA922BC294E0072EFD1 /* ContactsModel.swift in Sources */,
+				926AADB622C111D30072EFD1 /* Utils.swift in Sources */,
 				926AADAE22BC2C8C0072EFD1 /* ApiProtocol.swift in Sources */,
 				926AADB022BC2C9C0072EFD1 /* ApiProvider.swift in Sources */,
 				926AADAC22BC2AD20072EFD1 /* Person.swift in Sources */,
 				926AADB222BC2CAA0072EFD1 /* Api.swift in Sources */,
+				926AADB422BFDCEA0072EFD1 /* ProfileViewController.swift in Sources */,
 				926AADA722BC275F0072EFD1 /* ContactsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

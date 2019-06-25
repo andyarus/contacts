@@ -15,9 +15,9 @@ public class Api: ApiProtocol {
   public static let shared = Api()
   
   public init() {
-    //provider = MoyaProvider<ApiProvider>()
+    provider = MoyaProvider<ApiProvider>()
     // debug
-    provider = MoyaProvider<ApiProvider>(plugins: [NetworkLoggerPlugin(verbose: true)])
+    //provider = MoyaProvider<ApiProvider>(plugins: [NetworkLoggerPlugin(verbose: true)])
   }
   
   func loadContactsFromSource1() -> Single<[Person]> {

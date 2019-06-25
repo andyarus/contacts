@@ -20,23 +20,20 @@ class ContactsViewController: UIViewController {
   let headerBackgroundColor = UIColor(red: 248/255, green: 248/255, blue: 248/255, alpha: 1)
   let searchBarBackgroundColor = UIColor(red: 232/255, green: 232/255, blue: 233/255, alpha: 1)
   
-  var activityIndicator: UIActivityIndicatorView!
   var refreshControl: UIRefreshControl!
-  var errorView: UIView!
   
   @IBOutlet weak var headerView: UIView!
   @IBOutlet weak var searchBar: UISearchBar!
-  @IBOutlet var contactsTableView: UITableView!
+  @IBOutlet weak var contactsTableView: UITableView!
+  @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+  @IBOutlet weak var errorView: UIView!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    // hide empty separators
-    contactsTableView.tableFooterView = UIView()
-    
     setupNavigationBar()
     setupHeaderView()
-    initSubviews()
+    setupTableView()
     loadData()
   }
   
@@ -47,14 +44,6 @@ class ContactsViewController: UIViewController {
     navigationController?.navigationBar.barTintColor = headerBackgroundColor
   }
   
-  func setupHeaderView() {
-    headerView.backgroundColor = headerBackgroundColor
-    
-    searchBar.backgroundImage = UIImage()
-    searchBar.barTintColor = UIColor()
-    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = searchBarBackgroundColor
-  }
-  
   func setupNavigationBar() {
     // remove "Back"
     navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -63,54 +52,27 @@ class ContactsViewController: UIViewController {
     navigationController?.navigationBar.shadowImage = UIImage()
   }
   
-  func initSubviews() {
-    // refresh control
+  func setupHeaderView() {
+    headerView.backgroundColor = headerBackgroundColor
+    
+    searchBar.backgroundImage = UIImage()
+    searchBar.barTintColor = UIColor()
+    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = searchBarBackgroundColor
+  }
+  
+  func setupTableView() {
+    // hide empty separators
+    contactsTableView.tableFooterView = UIView()
+    
+    // add refresh control
     refreshControl = UIRefreshControl()
     refreshControl.tintColor = .lightGray
     refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     contactsTableView.addSubview(refreshControl)
-    
-    // activity indicator
-    activityIndicator = UIActivityIndicatorView(style: .gray)
-    
-    guard let nc = navigationController else { return }
-    nc.view.addSubview(activityIndicator)
-    
-    activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-    activityIndicator.centerXAnchor.constraint(equalTo: nc.view.centerXAnchor).isActive = true
-    activityIndicator.centerYAnchor.constraint(equalTo: nc.view.centerYAnchor).isActive = true
-    activityIndicator.startAnimating()
-    
-    // error subview
-    errorView = UIView()
-    let errorViewOffset: CGFloat = 33
-    let errorViewWidth: CGFloat = UIScreen.main.bounds.width-errorViewOffset*2
-    let errorViewHeight: CGFloat = 55
-    errorView.frame = CGRect(x: 0, y: 0, width: errorViewWidth, height: errorViewHeight)
-    errorView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-    errorView.layer.cornerRadius = 10
-    
-    let label = UILabel(frame: errorView.frame)
-    label.text = "Нет подключения к сети"
-    label.font = UIFont.boldSystemFont(ofSize: 17)
-    label.textColor = .white
-    label.textAlignment = .center
-    errorView.addSubview(label)
-    nc.view.addSubview(errorView)
-    
-    errorView.translatesAutoresizingMaskIntoConstraints = false
-    let bottomConstraint = errorView.bottomAnchor.constraint(equalTo: navigationController!.view.bottomAnchor)
-    bottomConstraint.constant = -35
-    bottomConstraint.isActive = true
-    errorView.centerXAnchor.constraint(equalTo: nc.view.centerXAnchor).isActive = true
-    errorView.widthAnchor.constraint(equalToConstant: errorViewWidth).isActive = true
-    errorView.heightAnchor.constraint(equalToConstant: errorViewHeight).isActive = true
-    
-    label.frame = errorView.frame
-    errorView.isHidden = true
   }
   
   func loadData() {
+    activityIndicator.startAnimating()
     refresh()
   }
   
@@ -210,6 +172,8 @@ extension ContactsViewController: UITableViewDelegate {
     guard let vc = sb.instantiateViewController(withIdentifier: "ProfileViewController") as? ProfileViewController else { return }
     vc.person = person    
     navigationController?.pushViewController(vc, animated: true)
+    
+    errorView.isHidden = true
   }
   
 }

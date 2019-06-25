@@ -29,6 +29,7 @@ class ProfileViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
+    // change tint color
     navigationController?.navigationBar.barTintColor = barTintColor
   }
   

@@ -28,8 +28,11 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="UcD-3Y-nzf">
-                                        <rect key="frame" x="0.0" y="38.5" width="375" height="66.5"/>
+                                        <rect key="frame" x="0.0" y="39" width="375" height="66"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="u4J-YW-UXs" id="RfY-bH-8M2"/>
+                                        </connections>
                                     </searchBar>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OLS-L9-3aj">
                                         <rect key="frame" x="0.0" y="104" width="375" height="1"/>

@@ -44,6 +44,23 @@ class Utils {
     return phone
   }
   
+  func format(nameSearch value: String?) -> String {
+    guard let name = value else { return String() }
+    
+    return name.lowercased()
+  }
+  
+  func format(phoneSearch value: String?) -> String {
+    guard var phone = value else { return String() }
+    phone = phone.replacingOccurrences(of: "+7", with: "8")
+    phone = phone.replacingOccurrences(of: " ", with: "")
+    phone = phone.replacingOccurrences(of: "(", with: "")
+    phone = phone.replacingOccurrences(of: ")", with: "")
+    phone = phone.replacingOccurrences(of: "-", with: "")
+    
+    return phone
+  }
+  
   func format(temperament value: String?) -> String {
     guard var temperament = value else { return String() }
     temperament = temperament.prefix(1).capitalized + temperament.dropFirst()

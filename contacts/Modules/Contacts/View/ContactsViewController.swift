@@ -14,6 +14,7 @@ class ContactsViewController: UIViewController {
   // MARK: - Properties
   var disposeBag = DisposeBag()
   var contacts: [Person] = []
+  var filteredContacts: [Person] = []
   
   var networkErrorsCount = 0
   var testErrorView = false // change for testing loading error notification
@@ -146,19 +147,44 @@ class ContactsViewController: UIViewController {
     refreshFinished()
   }
   
+  // MARK: - Search methods
+  func isFiltering() -> Bool {
+    return !searchBarIsEmpty()
+  }
+  
+  func searchBarIsEmpty() -> Bool {
+    return searchBar.text?.isEmpty ?? true
+  }
+  
+  func filterContentForSearchText(_ searchText: String) {
+    filteredContacts = contacts.filter({( person : Person) -> Bool in
+      return Utils.shared.format(nameSearch: person.name).contains(Utils.shared.format(nameSearch: searchText)) || Utils.shared.format(phoneSearch: person.phone).contains(Utils.shared.format(phoneSearch: searchText))
+    })
+    
+    contactsTableView.reloadData()
+  }
+  
 }
 
 // MARK: - UITableViewDataSource
 extension ContactsViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if isFiltering() {
+      return filteredContacts.count
+    }
+    
     return contacts.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "ContactsCell", for: indexPath) as! ContactsCell
-    
-    let person = contacts[indexPath.row]
+    let cell = tableView.dequeueReusableCell(withIdentifier: "ContactsCell", for: indexPath) as! ContactsCell    
+    let person: Person
+    if isFiltering() {
+      person = filteredContacts[indexPath.row]
+    } else {
+      person = contacts[indexPath.row]
+    }
     cell.nameLabel.text = person.name
     cell.phoneLabel.text = Utils.shared.format(phone: person.phone)
     cell.temperamentLabel.text = Utils.shared.format(temperament: person.temperament?.rawValue)
@@ -179,6 +205,15 @@ extension ContactsViewController: UITableViewDelegate {
     navigationController?.pushViewController(vc, animated: true)
     
     errorView.isHidden = true
+  }
+  
+}
+
+// MARK: - UISearchBarDelegate
+extension ContactsViewController: UISearchBarDelegate {
+  
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    filterContentForSearchText(searchBar.text!)
   }
   
 }

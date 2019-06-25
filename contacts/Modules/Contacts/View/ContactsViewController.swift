@@ -11,6 +11,7 @@ import RxSwift
 
 class ContactsViewController: UIViewController {
   
+  // MARK: - Properties
   var disposeBag = DisposeBag()
   var contacts: [Person] = []
   
@@ -28,6 +29,7 @@ class ContactsViewController: UIViewController {
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   @IBOutlet weak var errorView: UIView!
   
+  // MARK: - View Setup
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -71,6 +73,7 @@ class ContactsViewController: UIViewController {
     contactsTableView.addSubview(refreshControl)
   }
   
+  // MARK: - Methods
   func loadData() {
     activityIndicator.startAnimating()
     refresh()
@@ -145,6 +148,7 @@ class ContactsViewController: UIViewController {
   
 }
 
+// MARK: - UITableViewDataSource
 extension ContactsViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -164,6 +168,7 @@ extension ContactsViewController: UITableViewDataSource {
   
 }
 
+// MARK: - UITableViewDelegate
 extension ContactsViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

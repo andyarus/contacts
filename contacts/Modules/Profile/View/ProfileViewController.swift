@@ -10,6 +10,7 @@ import UIKit
 
 class ProfileViewController: UIViewController {
   
+  // MARK: - Properties
   var person: Person! = nil
   
   let barTintColor = UIColor(red: 250/255, green: 249/255, blue: 255/255, alpha: 1)
@@ -20,6 +21,7 @@ class ProfileViewController: UIViewController {
   @IBOutlet weak var phoneButton: UIButton!
   @IBOutlet weak var biographyTextView: UITextView!
   
+  // MARK: - View Setup
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -47,6 +49,7 @@ class ProfileViewController: UIViewController {
     biographyTextView.text = person.biography
   }
   
+  // MARK: - Actions
   @IBAction func phoneButtonClicked(_ sender: UIButton) {
     let phone = Utils.shared.format(phoneCall: sender.title(for: .normal)?.trimmingCharacters(in: .whitespacesAndNewlines))
     guard !phone.isEmpty else { return }

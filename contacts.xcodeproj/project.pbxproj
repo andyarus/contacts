@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92160B5C22C2C380005AF527 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92160B5B22C2C380005AF527 /* DataService.swift */; };
+		92160B5E22C2C38B005AF527 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92160B5D22C2C38B005AF527 /* DataModel.swift */; };
 		926AAD8022BC1DEB0072EFD1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AAD7F22BC1DEB0072EFD1 /* AppDelegate.swift */; };
 		926AAD8522BC1DEB0072EFD1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 926AAD8322BC1DEB0072EFD1 /* Main.storyboard */; };
 		926AAD8722BC1DEB0072EFD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 926AAD8622BC1DEB0072EFD1 /* Assets.xcassets */; };
@@ -25,6 +27,8 @@
 /* Begin PBXFileReference section */
 		1916B16BBC0F090F848C6418 /* Pods-contacts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-contacts.release.xcconfig"; path = "Target Support Files/Pods-contacts/Pods-contacts.release.xcconfig"; sourceTree = "<group>"; };
 		437A691E5127BEF80B913133 /* Pods_contacts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_contacts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		92160B5B22C2C380005AF527 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		92160B5D22C2C38B005AF527 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		926AAD7C22BC1DEB0072EFD1 /* contacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = contacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		926AAD7F22BC1DEB0072EFD1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		926AAD8422BC1DEB0072EFD1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -225,6 +229,8 @@
 		926AADA322BC25180072EFD1 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				92160B5B22C2C380005AF527 /* DataService.swift */,
+				92160B5D22C2C38B005AF527 /* DataModel.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -339,6 +345,8 @@
 				"${PODS_ROOT}/Target Support Files/Pods-contacts/Pods-contacts-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
@@ -349,6 +357,8 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
@@ -367,6 +377,7 @@
 			files = (
 				926AAD8022BC1DEB0072EFD1 /* AppDelegate.swift in Sources */,
 				926AADA922BC294E0072EFD1 /* ContactsModel.swift in Sources */,
+				92160B5E22C2C38B005AF527 /* DataModel.swift in Sources */,
 				926AADB622C111D30072EFD1 /* Utils.swift in Sources */,
 				926AADAE22BC2C8C0072EFD1 /* ApiProtocol.swift in Sources */,
 				926AADB022BC2C9C0072EFD1 /* ApiProvider.swift in Sources */,
@@ -374,6 +385,7 @@
 				926AADB222BC2CAA0072EFD1 /* Api.swift in Sources */,
 				926AADB422BFDCEA0072EFD1 /* ProfileViewController.swift in Sources */,
 				926AADA722BC275F0072EFD1 /* ContactsViewController.swift in Sources */,
+				92160B5C22C2C380005AF527 /* DataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -75,28 +75,28 @@ class Utils {
     return dateFormatterOut.string(from: date)
   }
   
-  func protectEducationPeriod(byCheck person: Person) -> EducationPeriod? {
+  func protectEducationPeriod(byCheck person: PersonDataModel) -> EducationPeriodDataModel? {
     guard let educationPeriod = person.educationPeriod,
-      let startDateString = educationPeriod.start, let endDateString = educationPeriod.end,
-      let startDate = dateFormatterIn.date(from: startDateString),
-      let endDate = dateFormatterIn.date(from: endDateString) else { return nil }
+      let startDate = dateFormatterIn.date(from: educationPeriod.start),
+      let endDate = dateFormatterIn.date(from: educationPeriod.end) else { return nil }
     
     if startDate > endDate {
-      print("\(person.name ?? "") id:\(person.id ?? "") have wrong education period start:\(startDate) - end:\(endDate) ")
+      print("\(person.name) id:\(person.id) have wrong education period start:\(startDate) - end:\(endDate) ")
       // TODO send notification to telegram bot, email, firebase or something like this
     }
     
     return educationPeriod
   }
   
-  func protectEducationPeriod(bySwap person: Person) -> EducationPeriod? {
+  func protectEducationPeriod(bySwap person: PersonDataModel) -> EducationPeriodDataModel? {
     guard let educationPeriod = person.educationPeriod,
-      let startDateString = educationPeriod.start, let endDateString = educationPeriod.end,
-      let startDate = dateFormatterIn.date(from: startDateString),
-      let endDate = dateFormatterIn.date(from: endDateString) else { return nil }
+      let startDate = dateFormatterIn.date(from: educationPeriod.start),
+      let endDate = dateFormatterIn.date(from: educationPeriod.end) else { return nil }
 
     if startDate > endDate {
-      let educationPeriodNew = EducationPeriod(start: educationPeriod.end, end: educationPeriod.start)
+      let educationPeriodNew = EducationPeriodDataModel()
+      educationPeriodNew.start = educationPeriod.end
+      educationPeriodNew.end = educationPeriod.start
       return educationPeriodNew
     }
     

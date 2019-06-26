@@ -11,7 +11,7 @@ import UIKit
 class ProfileViewController: UIViewController {
   
   // MARK: - Properties
-  var person: Person! = nil
+  var person: PersonDataModel! = nil
   
   let barTintColor = UIColor(red: 250/255, green: 249/255, blue: 255/255, alpha: 1)
   
@@ -44,7 +44,7 @@ class ProfileViewController: UIViewController {
     
     nameLabel.text = person.name
     educationPeriodLabel.text = "\(startDate) \u{2013} \(endDate)" // \u{2013} == –
-    temperamentLabel.text = Utils.shared.format(temperament: person.temperament?.rawValue)
+    temperamentLabel.text = Utils.shared.format(temperament: person.temperament)
     phoneButton.setTitle(phone, for: .normal)
     biographyTextView.text = person.biography
   }

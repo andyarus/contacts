@@ -8,13 +8,17 @@
 
 import UIKit
 import RxSwift
+import RealmSwift
 
 class ContactsViewController: UIViewController {
   
   // MARK: - Properties
   var disposeBag = DisposeBag()
-  var contacts: [Person] = []
-  var filteredContacts: [Person] = []
+  
+  let realm = try! Realm()
+  lazy var contacts: Results<PersonDataModel> = { self.realm.objects(PersonDataModel.self) }()
+  var filteredContacts: [PersonDataModel] = []
+  let lastUpdateTimeLimit: TimeInterval = 60 // seconds
   
   var networkErrorsCount = 0
   var testErrorView = false // change for testing loading error notification
@@ -76,8 +80,14 @@ class ContactsViewController: UIViewController {
   
   // MARK: - Methods
   func loadData() {
-    activityIndicator.startAnimating()
-    refresh()
+    let lastUpdate = realm.objects(LastUpdateDataModel.self).first
+    if let lastUpdate = lastUpdate,
+      Date().timeIntervalSince1970 - lastUpdate.time.timeIntervalSince1970 < lastUpdateTimeLimit {
+      contactsTableView.reloadData()
+    } else {
+      activityIndicator.startAnimating()
+      refresh()
+    }
   }
   
   @objc func refresh() {
@@ -114,10 +124,12 @@ class ContactsViewController: UIViewController {
                   }
                 }
                 
-                self.contacts = contactsTmp
-                self.contacts.sort {
+                //self.contacts = contactsTmp
+                contactsTmp.sort {
                   $0.name ?? "" < $1.name ?? ""
                 }
+                
+                self.update(contactsTmp)
                 
                 self.refreshFinished()
                 
@@ -133,6 +145,34 @@ class ContactsViewController: UIViewController {
         self.refreshFailed()
     }).disposed(by: self.disposeBag)
     
+  }
+  
+  func update(_ contacts: [Person]) {
+    try! self.realm.write() {
+      // delete previous contacts
+      self.realm.delete(self.contacts)
+      
+      // add records
+      for person in contacts {
+        let newPerson = PersonDataModel()
+        newPerson.id = person.id ?? ""
+        newPerson.name = person.name ?? ""
+        newPerson.phone = person.phone ?? ""
+        newPerson.height = Double(person.height ?? 0.0)
+        newPerson.biography = person.biography ?? ""
+        newPerson.temperament = person.temperament?.rawValue ?? ""
+        newPerson.educationPeriod = EducationPeriodDataModel()
+        newPerson.educationPeriod?.start = person.educationPeriod?.start ?? ""
+        newPerson.educationPeriod?.end = person.educationPeriod?.end ?? ""
+        
+        self.realm.add(newPerson)
+      }
+      
+      // save last update time
+      let lastUpdate = LastUpdateDataModel()
+      lastUpdate.time = Date()
+      self.realm.add(lastUpdate, update: true)
+    }
   }
   
   func refreshFinished() {
@@ -157,7 +197,7 @@ class ContactsViewController: UIViewController {
   }
   
   func filterContentForSearchText(_ searchText: String) {
-    filteredContacts = contacts.filter({( person : Person) -> Bool in
+    filteredContacts = contacts.filter({(person : PersonDataModel) -> Bool in
       return Utils.shared.format(nameSearch: person.name).contains(Utils.shared.format(nameSearch: searchText)) || Utils.shared.format(phoneSearch: person.phone).contains(Utils.shared.format(phoneSearch: searchText))
     })
     
@@ -178,16 +218,17 @@ extension ContactsViewController: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "ContactsCell", for: indexPath) as! ContactsCell    
-    let person: Person
+    let cell = tableView.dequeueReusableCell(withIdentifier: "ContactsCell", for: indexPath) as! ContactsCell
+    let person: PersonDataModel
     if isFiltering() {
       person = filteredContacts[indexPath.row]
     } else {
       person = contacts[indexPath.row]
     }
+    
     cell.nameLabel.text = person.name
     cell.phoneLabel.text = Utils.shared.format(phone: person.phone)
-    cell.temperamentLabel.text = Utils.shared.format(temperament: person.temperament?.rawValue)
+    cell.temperamentLabel.text = Utils.shared.format(temperament: person.temperament)
     
     return cell
   }
@@ -201,7 +242,7 @@ extension ContactsViewController: UITableViewDelegate {
     let person = contacts[indexPath.row]
     let sb = UIStoryboard.init(name: "Main", bundle: nil)
     guard let vc = sb.instantiateViewController(withIdentifier: "ProfileViewController") as? ProfileViewController else { return }
-    vc.person = person    
+    vc.person = person
     navigationController?.pushViewController(vc, animated: true)
     
     errorView.isHidden = true

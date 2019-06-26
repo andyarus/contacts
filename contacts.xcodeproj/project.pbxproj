@@ -18,9 +18,9 @@
 		92160B6E22C3F605005AF527 /* ContactsRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92160B6D22C3F605005AF527 /* ContactsRouterInput.swift */; };
 		92160B7022C3F611005AF527 /* ContactsRouterOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92160B6F22C3F611005AF527 /* ContactsRouterOutput.swift */; };
 		92160B7222C3F61A005AF527 /* ContactsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92160B7122C3F61A005AF527 /* ContactsRouter.swift */; };
-		92160B7422C3F705005AF527 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92160B7322C3F705005AF527 /* DataSource.swift */; };
 		92160B7622C3F7AB005AF527 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92160B7522C3F7AB005AF527 /* ContactsCell.swift */; };
 		92160B7922C400B6005AF527 /* ContactsModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92160B7822C400B6005AF527 /* ContactsModuleBuilder.swift */; };
+		92160B7B22C42E63005AF527 /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92160B7A22C42E63005AF527 /* Contacts.swift */; };
 		926AAD8022BC1DEB0072EFD1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926AAD7F22BC1DEB0072EFD1 /* AppDelegate.swift */; };
 		926AAD8522BC1DEB0072EFD1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 926AAD8322BC1DEB0072EFD1 /* Main.storyboard */; };
 		926AAD8722BC1DEB0072EFD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 926AAD8622BC1DEB0072EFD1 /* Assets.xcassets */; };
@@ -49,9 +49,9 @@
 		92160B6D22C3F605005AF527 /* ContactsRouterInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsRouterInput.swift; sourceTree = "<group>"; };
 		92160B6F22C3F611005AF527 /* ContactsRouterOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsRouterOutput.swift; sourceTree = "<group>"; };
 		92160B7122C3F61A005AF527 /* ContactsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsRouter.swift; sourceTree = "<group>"; };
-		92160B7322C3F705005AF527 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		92160B7522C3F7AB005AF527 /* ContactsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsCell.swift; sourceTree = "<group>"; };
 		92160B7822C400B6005AF527 /* ContactsModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsModuleBuilder.swift; sourceTree = "<group>"; };
+		92160B7A22C42E63005AF527 /* Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
 		926AAD7C22BC1DEB0072EFD1 /* contacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = contacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		926AAD7F22BC1DEB0072EFD1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		926AAD8422BC1DEB0072EFD1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -195,7 +195,7 @@
 		926AAD9722BC1EC70072EFD1 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				92160B7322C3F705005AF527 /* DataSource.swift */,
+				92160B7A22C42E63005AF527 /* Contacts.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -416,13 +416,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92160B7422C3F705005AF527 /* DataSource.swift in Sources */,
 				926AAD8022BC1DEB0072EFD1 /* AppDelegate.swift in Sources */,
 				92160B6822C3F5DC005AF527 /* ContactsInteractorInput.swift in Sources */,
 				92160B5E22C2C38B005AF527 /* DataModel.swift in Sources */,
 				92160B7022C3F611005AF527 /* ContactsRouterOutput.swift in Sources */,
 				92160B6A22C3F5E6005AF527 /* ContactsInteractorOutput.swift in Sources */,
 				92160B6622C3F5B3005AF527 /* ContactsPresenter.swift in Sources */,
+				92160B7B22C42E63005AF527 /* Contacts.swift in Sources */,
 				926AADB622C111D30072EFD1 /* Utils.swift in Sources */,
 				92160B7922C400B6005AF527 /* ContactsModuleBuilder.swift in Sources */,
 				926AADAE22BC2C8C0072EFD1 /* ApiProtocol.swift in Sources */,

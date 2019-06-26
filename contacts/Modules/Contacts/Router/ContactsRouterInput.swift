@@ -9,5 +9,5 @@
 import Foundation
 
 protocol ContactsRouterInput {
-
+  func showError(_ title: String?, _ message: String)
 }

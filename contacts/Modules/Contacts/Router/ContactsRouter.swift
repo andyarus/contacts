@@ -16,10 +16,19 @@ class ContactsRouter {
   }
 }
 
+// MARK: - ContactsRouterInput
 extension ContactsRouter: ContactsRouterInput {
+  
+  func showError(_ title: String?, _ message: String) {
+    guard let vc = vc else { return }
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+    vc.present(alert, animated: true, completion: nil)
+  }
   
 }
 
+// MARK: - ContactsRouterOutput
 extension ContactsRouter: ContactsRouterOutput {
   
 }

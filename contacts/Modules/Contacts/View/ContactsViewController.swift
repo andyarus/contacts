@@ -8,22 +8,16 @@
 
 import UIKit
 import RxSwift
-import RealmSwift
 
 class ContactsViewController: UIViewController {
   
   // MARK: - Properties
   var presenter: (ContactsPresenterInput & ContactsPresenterOutput)!
   
-  var disposeBag = DisposeBag()
+  private var disposeBag = DisposeBag()
   
-  let realm = try! Realm()
-  var contacts: Results<PersonDataModel>?
+  var contacts: [PersonDataModel] = []
   var filteredContacts: [PersonDataModel] = []
-  let lastUpdateTimeLimit: TimeInterval = 60 // seconds
-  
-  var networkErrorsCount = 0
-  var testErrorView = false // change for testing loading error notification
   
   let headerBackgroundColor = UIColor(red: 248/255, green: 248/255, blue: 248/255, alpha: 1)
   let searchBarBackgroundColor = UIColor(red: 232/255, green: 232/255, blue: 233/255, alpha: 1)
@@ -43,6 +37,7 @@ class ContactsViewController: UIViewController {
     setupNavigationBar()
     setupHeaderView()
     setupTableView()
+    initSubscribes()
     loadData()
   }
   
@@ -84,7 +79,45 @@ class ContactsViewController: UIViewController {
     contactsTableView.addSubview(refreshControl)
   }
   
-  // MARK: - Methods
+  // MARK: - Methods  
+  private func initSubscribes() {
+    presenter.contactsSubject
+      .filter { $0 != nil }
+      .map { $0! }
+      .subscribe(onNext: { [unowned self] result in
+        switch result {
+        case .success(let contacts):
+          self.contacts = contacts
+        case .error(let error):
+          print(error)
+          DispatchQueue.main.async {
+            self.errorView.isHidden = false
+          }
+        }
+        if self.isFiltering() {
+          self.presenter.filterContentForSearchText(self.searchBar.text!)
+        } else {
+          self.refreshFinished()
+        }
+      }).disposed(by: disposeBag)
+    
+    presenter.filteredContactsSubject
+      .filter { $0 != nil }
+      .map { $0! }
+      .subscribe(onNext: { [unowned self] result in
+        switch result {
+        case .success(let contacts):
+          self.filteredContacts = contacts
+        case .error(let error):
+          print(error)
+          DispatchQueue.main.async {
+            self.errorView.isHidden = false
+          }
+        }
+        self.refreshFinished()
+      }).disposed(by: disposeBag)
+  }
+  
   func loadData() {
     activityIndicator.startAnimating()
     refresh()
@@ -93,99 +126,8 @@ class ContactsViewController: UIViewController {
   @objc func refresh() {
     errorView.isHidden = true
     contactsTableView.isUserInteractionEnabled = false
-
-    // use local storage if time left < lastUpdateTimeLimit
-    if let lastUpdate = realm.objects(LastUpdateDataModel.self).first,
-      Date().timeIntervalSince1970 - lastUpdate.time.timeIntervalSince1970 < lastUpdateTimeLimit {
-      contacts = realm.objects(PersonDataModel.self)
-      refreshFinished()
-      return
-    }
     
-    var contactsTmp: [Person] = []
-    
-    Api.shared.loadContactsFromSource1()
-      .subscribe(onSuccess: { [unowned self] contacts in
-        contactsTmp.append(contentsOf: contacts)
-        
-        Api.shared.loadContactsFromSource2()
-          .subscribe(onSuccess: { [unowned self] contacts in
-            contactsTmp.append(contentsOf: contacts)
-            
-            Api.shared.loadContactsFromSource3()
-              .subscribe(onSuccess: { [unowned self] contacts in
-                contactsTmp.append(contentsOf: contacts)
-
-//                // unique
-//                contactsTmp.forEach { contact in
-//                  if !self.contacts.contains(where: { $0.id == contact.id } ) {
-//                    self.contacts.append(contact)
-//                  }
-//                }
-                
-                // test only
-                if self.testErrorView {
-                  self.networkErrorsCount += 1
-                  if self.networkErrorsCount % 2 == 0 {
-                    self.refreshFailed()
-                    return
-                  }
-                }
-                
-                //self.contacts = contactsTmp
-                contactsTmp.sort {
-                  $0.name ?? "" < $1.name ?? ""
-                }
-                
-                self.update(contactsTmp)
-                
-                self.refreshFinished()
-                
-                }, onError: { [unowned self] (error) in
-                  self.refreshFailed()
-              }).disposed(by: self.disposeBag)
-            
-          }, onError: { [unowned self] (error) in
-            self.refreshFailed()
-        }).disposed(by: self.disposeBag)
-
-      }, onError: { [unowned self] (error) in
-        self.refreshFailed()
-    }).disposed(by: self.disposeBag)
-    
-  }
-  
-  func update(_ newContacts: [Person]) {
-    try! self.realm.write() {
-      // delete previous contacts
-      self.realm.delete(self.realm.objects(PersonDataModel.self))
-      
-      // add records
-      for person in newContacts {
-        let newPerson = PersonDataModel()
-        newPerson.id = person.id ?? ""
-        newPerson.name = person.name ?? ""
-        newPerson.phone = person.phone ?? ""
-        newPerson.height = Double(person.height ?? 0.0)
-        newPerson.biography = person.biography ?? ""
-        newPerson.temperament = person.temperament?.rawValue ?? ""
-        newPerson.educationPeriod = EducationPeriodDataModel()
-        newPerson.educationPeriod?.start = person.educationPeriod?.start ?? ""
-        newPerson.educationPeriod?.end = person.educationPeriod?.end ?? ""
-        
-        self.realm.add(newPerson)
-      }
-      self.contacts = realm.objects(PersonDataModel.self)
-      
-      if isFiltering() {
-        filterContentForSearchText(searchBar.text!)
-      }
-      
-      // save last update time
-      let lastUpdate = LastUpdateDataModel()
-      lastUpdate.time = Date()
-      self.realm.add(lastUpdate, update: true)
-    }
+    presenter.loadContacts()
   }
   
   func refreshFinished() {
@@ -195,11 +137,6 @@ class ContactsViewController: UIViewController {
     contactsTableView.isUserInteractionEnabled = true
   }
   
-  func refreshFailed() {
-    errorView.isHidden = false
-    refreshFinished()
-  }
-  
   // MARK: - Search methods
   func isFiltering() -> Bool {
     return !searchBarIsEmpty()
@@ -207,15 +144,6 @@ class ContactsViewController: UIViewController {
   
   func searchBarIsEmpty() -> Bool {
     return searchBar.text?.isEmpty ?? true
-  }
-  
-  func filterContentForSearchText(_ searchText: String) {
-    guard let contacts = contacts else { return }
-    filteredContacts = contacts.filter({(person : PersonDataModel) -> Bool in
-      return Utils.shared.format(nameSearch: person.name).contains(Utils.shared.format(nameSearch: searchText)) || Utils.shared.format(phoneSearch: person.phone).contains(Utils.shared.format(phoneSearch: searchText))
-    })
-    
-    contactsTableView.reloadData()
   }
   
 }
@@ -228,7 +156,7 @@ extension ContactsViewController: UITableViewDataSource {
       return filteredContacts.count
     }
     
-    return contacts?.count ?? 0
+    return contacts.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -237,7 +165,7 @@ extension ContactsViewController: UITableViewDataSource {
     if isFiltering() {
       person = filteredContacts[indexPath.row]
     } else {
-      person = contacts![indexPath.row]
+      person = contacts[indexPath.row]
     }
     
     cell.nameLabel.text = person.name
@@ -253,7 +181,7 @@ extension ContactsViewController: UITableViewDataSource {
 extension ContactsViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let person = contacts![indexPath.row]
+    let person = contacts[indexPath.row]
     let sb = UIStoryboard.init(name: "Main", bundle: nil)
     guard let vc = sb.instantiateViewController(withIdentifier: "ProfileViewController") as? ProfileViewController else { return }
     vc.person = person
@@ -268,7 +196,7 @@ extension ContactsViewController: UITableViewDelegate {
 extension ContactsViewController: UISearchBarDelegate {
   
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-    filterContentForSearchText(searchBar.text!)
+    presenter.filterContentForSearchText(searchBar.text!)
   }
   
 }

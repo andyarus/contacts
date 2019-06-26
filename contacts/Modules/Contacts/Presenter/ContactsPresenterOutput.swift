@@ -9,5 +9,6 @@
 import RxSwift
 
 protocol ContactsPresenterOutput {
-
+  var contactsSubject: BehaviorSubject<Contacts?> { get }
+  var filteredContactsSubject: BehaviorSubject<Contacts?> { get }
 }

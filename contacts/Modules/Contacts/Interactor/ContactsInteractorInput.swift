@@ -9,6 +9,6 @@
 import Foundation
 
 protocol ContactsInteractorInput {  
-  func loadContactsFromNetwork()
-  func loadContactsFromLocal()
+  func loadContacts()
+  func filterContentForSearchText(_ searchText: String)
 }

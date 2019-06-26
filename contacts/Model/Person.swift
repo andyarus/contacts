@@ -26,8 +26,4 @@ struct Person: Codable {
   let biography: String?
   let temperament: Temperament?
   let educationPeriod: EducationPeriod?
-  
-//  static func == (lhs: Person, rhs: Person) -> Bool {
-//    return lhs.id == rhs.id
-//  }
 }

@@ -9,5 +9,6 @@
 import Foundation
 
 protocol ContactsPresenterInput {
-  func loadContacts(from datasource: DataSource)
+  func loadContacts()
+  func filterContentForSearchText(_ searchText: String)
 }

@@ -16,7 +16,7 @@ class ContactsViewController: UIViewController {
   var disposeBag = DisposeBag()
   
   let realm = try! Realm()
-  lazy var contacts: Results<PersonDataModel> = { self.realm.objects(PersonDataModel.self) }()
+  var contacts: Results<PersonDataModel>?
   var filteredContacts: [PersonDataModel] = []
   let lastUpdateTimeLimit: TimeInterval = 60 // seconds
   
@@ -80,19 +80,21 @@ class ContactsViewController: UIViewController {
   
   // MARK: - Methods
   func loadData() {
-    let lastUpdate = realm.objects(LastUpdateDataModel.self).first
-    if let lastUpdate = lastUpdate,
-      Date().timeIntervalSince1970 - lastUpdate.time.timeIntervalSince1970 < lastUpdateTimeLimit {
-      contactsTableView.reloadData()
-    } else {
-      activityIndicator.startAnimating()
-      refresh()
-    }
+    activityIndicator.startAnimating()
+    refresh()
   }
   
   @objc func refresh() {
     errorView.isHidden = true
     contactsTableView.isUserInteractionEnabled = false
+
+    // use local storage if time left < lastUpdateTimeLimit
+    if let lastUpdate = realm.objects(LastUpdateDataModel.self).first,
+      Date().timeIntervalSince1970 - lastUpdate.time.timeIntervalSince1970 < lastUpdateTimeLimit {
+      contacts = realm.objects(PersonDataModel.self)
+      refreshFinished()
+      return
+    }
     
     var contactsTmp: [Person] = []
     
@@ -147,13 +149,13 @@ class ContactsViewController: UIViewController {
     
   }
   
-  func update(_ contacts: [Person]) {
+  func update(_ newContacts: [Person]) {
     try! self.realm.write() {
       // delete previous contacts
-      self.realm.delete(self.contacts)
+      self.realm.delete(self.realm.objects(PersonDataModel.self))
       
       // add records
-      for person in contacts {
+      for person in newContacts {
         let newPerson = PersonDataModel()
         newPerson.id = person.id ?? ""
         newPerson.name = person.name ?? ""
@@ -166,6 +168,11 @@ class ContactsViewController: UIViewController {
         newPerson.educationPeriod?.end = person.educationPeriod?.end ?? ""
         
         self.realm.add(newPerson)
+      }
+      self.contacts = realm.objects(PersonDataModel.self)
+      
+      if isFiltering() {
+        filterContentForSearchText(searchBar.text!)
       }
       
       // save last update time
@@ -197,6 +204,7 @@ class ContactsViewController: UIViewController {
   }
   
   func filterContentForSearchText(_ searchText: String) {
+    guard let contacts = contacts else { return }
     filteredContacts = contacts.filter({(person : PersonDataModel) -> Bool in
       return Utils.shared.format(nameSearch: person.name).contains(Utils.shared.format(nameSearch: searchText)) || Utils.shared.format(phoneSearch: person.phone).contains(Utils.shared.format(phoneSearch: searchText))
     })
@@ -214,7 +222,7 @@ extension ContactsViewController: UITableViewDataSource {
       return filteredContacts.count
     }
     
-    return contacts.count
+    return contacts?.count ?? 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -223,7 +231,7 @@ extension ContactsViewController: UITableViewDataSource {
     if isFiltering() {
       person = filteredContacts[indexPath.row]
     } else {
-      person = contacts[indexPath.row]
+      person = contacts![indexPath.row]
     }
     
     cell.nameLabel.text = person.name
@@ -239,7 +247,7 @@ extension ContactsViewController: UITableViewDataSource {
 extension ContactsViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let person = contacts[indexPath.row]
+    let person = contacts![indexPath.row]
     let sb = UIStoryboard.init(name: "Main", bundle: nil)
     guard let vc = sb.instantiateViewController(withIdentifier: "ProfileViewController") as? ProfileViewController else { return }
     vc.person = person

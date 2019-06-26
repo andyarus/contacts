@@ -1,8 +1,8 @@
 //
-//  ContactsModel.swift
+//  ContactsCell.swift
 //  contacts
 //
-//  Created by Andrei Coder on 21/06/2019.
+//  Created by Andrei Coder on 26/06/2019.
 //  Copyright © 2019 Andrei Coder. All rights reserved.
 //
 

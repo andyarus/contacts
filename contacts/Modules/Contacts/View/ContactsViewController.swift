@@ -13,6 +13,8 @@ import RealmSwift
 class ContactsViewController: UIViewController {
   
   // MARK: - Properties
+  var presenter: (ContactsPresenterInput & ContactsPresenterOutput)!
+  
   var disposeBag = DisposeBag()
   
   let realm = try! Realm()
@@ -52,6 +54,10 @@ class ContactsViewController: UIViewController {
   }
   
   func setupNavigationBar() {
+    // change back button image (add left offset)
+    navigationController?.navigationBar.backIndicatorImage = UIImage(named: "back")
+    navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "back")
+    
     // remove "Back"
     navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     

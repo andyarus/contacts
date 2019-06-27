@@ -9,6 +9,7 @@
 import Foundation
 
 class Utils {
+  
   static let shared = Utils()
   
   let dateFormatterIn = ISO8601DateFormatter()

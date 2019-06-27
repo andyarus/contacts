@@ -10,9 +10,11 @@ import Moya
 import RxSwift
 
 public class Api: ApiProtocol {
-  private let provider: MoyaProvider<ApiProvider>
-  private let disposeBag = DisposeBag()
+  
   public static let shared = Api()
+  
+  private let provider: MoyaProvider<ApiProvider>
+  private let disposeBag = DisposeBag()  
   
   public init() {
     provider = MoyaProvider<ApiProvider>()

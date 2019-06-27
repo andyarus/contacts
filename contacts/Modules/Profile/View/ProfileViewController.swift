@@ -13,8 +13,6 @@ class ProfileViewController: UIViewController {
   // MARK: - Properties
   var person: PersonDataModel! = nil
   
-  let barTintColor = UIColor(red: 250/255, green: 249/255, blue: 255/255, alpha: 1)
-  
   @IBOutlet weak var nameLabel: UILabel!
   @IBOutlet weak var educationPeriodLabel: UILabel!
   @IBOutlet weak var temperamentLabel: UILabel!
@@ -32,7 +30,7 @@ class ProfileViewController: UIViewController {
     super.viewWillAppear(animated)
     
     // change tint color
-    navigationController?.navigationBar.barTintColor = barTintColor
+    navigationController?.navigationBar.barTintColor = Theme.Profile.NavigationBar.Tint.color
   }
   
   func setup() {

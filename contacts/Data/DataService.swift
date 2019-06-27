@@ -9,6 +9,7 @@
 import RealmSwift
 
 class DataService {
+  
   private let realm = try! Realm()
   
   private let lastUpdateTimeLimit: TimeInterval = 60 // seconds

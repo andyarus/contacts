@@ -19,9 +19,6 @@ class ContactsViewController: UIViewController {
   var contacts: [PersonDataModel] = []
   var filteredContacts: [PersonDataModel] = []
   
-  let headerBackgroundColor = UIColor(red: 248/255, green: 248/255, blue: 248/255, alpha: 1)
-  let searchBarBackgroundColor = UIColor(red: 232/255, green: 232/255, blue: 233/255, alpha: 1)
-  
   var refreshControl: UIRefreshControl!
   
   @IBOutlet weak var headerView: UIView!
@@ -45,7 +42,7 @@ class ContactsViewController: UIViewController {
     super.viewWillAppear(animated)
     
     // change tint color
-    navigationController?.navigationBar.barTintColor = headerBackgroundColor
+    navigationController?.navigationBar.barTintColor = Theme.Contacts.NavigationBar.Background.color
   }
   
   func setupNavigationBar() {
@@ -61,11 +58,11 @@ class ContactsViewController: UIViewController {
   }
   
   func setupHeaderView() {
-    headerView.backgroundColor = headerBackgroundColor
+    headerView.backgroundColor = Theme.Contacts.NavigationBar.Background.color
     
     searchBar.backgroundImage = UIImage()
     searchBar.barTintColor = UIColor()
-    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = searchBarBackgroundColor
+    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = Theme.Contacts.SearchBar.Background.color
   }
   
   func setupTableView() {

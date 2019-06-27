@@ -12,12 +12,6 @@ class Theme {
   
   static let shared = Theme()
   
-  
-  //let headerBackgroundColor = UIColor(red: 248/255, green: 248/255, blue: 248/255, alpha: 1)
-  //let searchBarBackgroundColor = UIColor(red: 232/255, green: 232/255, blue: 233/255, alpha: 1)
-  
-  //let barTintColor = UIColor(red: 250/255, green: 249/255, blue: 255/255, alpha: 1)
-
   struct Contacts {
     
     struct NavigationBar {
